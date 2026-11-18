@@ -1,0 +1,13 @@
+# Dependencias y compilados
+node_modules/
+target/
+dist/
+
+# Herramientas locales
+.claude/
+.idea/
+*.log
+
+# Variables de entorno con claves
+.env
+.env.*

@@ -1,0 +1,12 @@
+{
+  "title": "Trackline",
+  "language": "es",
+  "description": "Plataforma de seguimiento de envíos para clientes, operadores, supervisores y administradores.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}

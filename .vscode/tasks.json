@@ -1,0 +1,90 @@
+{
+  // Terminal > Ejecutar tarea... (o Ctrl+Shift+B para "Iniciar todo").
+  // PostgreSQL 17 local: usuario postgres / clave postgres, base tracking_logistico.
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Iniciar todo",
+      "dependsOn": ["Backend (PostgreSQL)", "Frontend"],
+      "dependsOrder": "parallel",
+      "group": { "kind": "build", "isDefault": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "Iniciar todo (PostgreSQL + datos de ejemplo)",
+      "dependsOn": ["Backend (PostgreSQL + datos de ejemplo)", "Frontend"],
+      "dependsOrder": "parallel",
+      "problemMatcher": []
+    },
+    {
+      "label": "Backend (PostgreSQL)",
+      "type": "shell",
+      "command": ".\\mvnw.cmd",
+      "args": ["spring-boot:run"],
+      "options": { "cwd": "${workspaceFolder}/backend" },
+      "isBackground": true,
+      "presentation": { "panel": "dedicated", "group": "trackline" },
+      "problemMatcher": {
+        "pattern": { "regexp": "^__never__$" },
+        "background": { "activesBegin": ".", "beginsPattern": "Scanning for projects", "endsPattern": "Started LogisticaApplication" }
+      }
+    },
+    {
+      // Carga una sola vez (si no existen) las cuentas @demo.com y 12 envíos con historial.
+      "label": "Backend (PostgreSQL + datos de ejemplo)",
+      "type": "shell",
+      "command": ".\\mvnw.cmd",
+      "args": ["spring-boot:run"],
+      "options": { "cwd": "${workspaceFolder}/backend", "env": { "DEMO_DATA": "true" } },
+      "isBackground": true,
+      "presentation": { "panel": "dedicated", "group": "trackline" },
+      "problemMatcher": {
+        "pattern": { "regexp": "^__never__$" },
+        "background": { "activesBegin": ".", "beginsPattern": "Scanning for projects", "endsPattern": "Started LogisticaApplication" }
+      }
+    },
+    {
+      "label": "Backend (H2 en memoria, sin PostgreSQL)",
+      "type": "shell",
+      "command": ".\\mvnw.cmd",
+      "args": ["spring-boot:test-run", "\"-Dspring-boot.run.profiles=h2\""],
+      "options": { "cwd": "${workspaceFolder}/backend" },
+      "isBackground": true,
+      "presentation": { "panel": "dedicated", "group": "trackline" },
+      "problemMatcher": {
+        "pattern": { "regexp": "^__never__$" },
+        "background": { "activesBegin": ".", "beginsPattern": "Scanning for projects", "endsPattern": "Started LogisticaApplication" }
+      }
+    },
+    {
+      "label": "Frontend",
+      "type": "shell",
+      "command": "npm.cmd",
+      "args": ["run", "dev"],
+      "options": { "cwd": "${workspaceFolder}/frontend" },
+      "isBackground": true,
+      "presentation": { "panel": "dedicated", "group": "trackline" },
+      "problemMatcher": {
+        "pattern": { "regexp": "^__never__$" },
+        "background": { "activesBegin": ".", "beginsPattern": "vite", "endsPattern": "Local:" }
+      }
+    },
+    {
+      "label": "Pruebas backend",
+      "type": "shell",
+      "command": ".\\mvnw.cmd",
+      "args": ["test"],
+      "options": { "cwd": "${workspaceFolder}/backend" },
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "Instalar dependencias del frontend",
+      "type": "shell",
+      "command": "npm.cmd",
+      "args": ["install"],
+      "options": { "cwd": "${workspaceFolder}/frontend" },
+      "problemMatcher": []
+    }
+  ]
+}
